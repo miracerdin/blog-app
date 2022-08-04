@@ -16,6 +16,7 @@ import {
   toastSuccessNotify,
   toastWarnNotify,
 } from "../helpers/ToastNotify";
+import toast from "react-hot-toast";
 
 // TODO: Replace the following with your app's Firebase project configuration
 //* https://firebase.google.com/docs/auth/web/start
@@ -53,10 +54,10 @@ export const createUser = async (email, password, navigate, displayName) => {
       //   photoURL: "https://example.com/jane-q-user/profile.jpg",
     });
     navigate("/");
-    toastSuccessNotify("Registered successfully!");
+    toast.success("Registered successfully!");
     console.log(userCredential);
   } catch (error) {
-    toastErrorNotify(error.message);
+    toast.error(error.message);
   }
 };
 
@@ -70,10 +71,10 @@ export const signIn = async (email, password, navigate) => {
       password
     );
     navigate("/");
-    toastSuccessNotify("Logged in successfully!");
+    toast.success("Logged in successfully!");
     console.log(userCredential);
   } catch (error) {
-    toastErrorNotify(error.message);
+    toast.error(error.message);
   }
 };
 
@@ -91,7 +92,7 @@ export const userObserver = (setCurrentUser) => {
 
 export const logOut = () => {
   signOut(auth);
-  toastSuccessNotify("Logged out successfully!");
+  toast.success("Logged out successfully!");
 };
 
 export const signUpProvider = (navigate) => {
@@ -100,11 +101,11 @@ export const signUpProvider = (navigate) => {
   //? Açılır pencere ile giriş yapılması için kullanılan firebase metodu
   signInWithPopup(auth, provider)
     .then((result) => {
-      toastSuccessNotify("Logged in successfully!");
+      toast.success("Logged in successfully!");
       navigate("/");
     })
     .catch((error) => {
-      toastErrorNotify(error.message);
+      toast.error(error.message);
     });
 };
 
@@ -113,11 +114,11 @@ export const forgotPassword = (email) => {
   sendPasswordResetEmail(auth, email)
     .then(() => {
       // Password reset email sent!
-      toastWarnNotify("Please check your mail box!");
+      toast.error("Please check your mail box!");
       // alert("Please check your mail box!");
     })
     .catch((err) => {
-      toastErrorNotify(err.message);
+      toast.error(err.message);
       // alert(err.message);
       // ..
     });

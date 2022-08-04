@@ -14,6 +14,10 @@ const BlogContextProvider = ({ children }) => {
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [posts, setPosts] = useState([]);
+  const [newPostOpen, setNewPostOpen] = useState(false);
+  const [editPostOpen, setEditPostOpen] = useState(false);
+  const [updateInfo, setUpdateInfo] = useState({});
+
   console.log(posts);
   console.log(currentUser);
   //Bilgi ekleme
@@ -32,6 +36,7 @@ const BlogContextProvider = ({ children }) => {
         // favourite: "0",
         // likes: [""],
       });
+      toast.success("Succesfully added");
       // console.log(db);
       setTitle("");
       setContent("");
@@ -54,6 +59,26 @@ const BlogContextProvider = ({ children }) => {
     });
   }, []);
 
+  const editBlogPost = () => {
+    if (updateInfo.title && updateInfo.content) {
+      update(ref(db, "posts/" + updateInfo.id), {
+        title: updateInfo.title,
+        content: updateInfo.content,
+        imageUrl: updateInfo.imageUrl,
+        // favourite: updateInfo.favourite,
+        // likes: updateInfo.likes,
+        // author: currentUser.displayName,
+        userId: currentUser.uid,
+      });
+      setEditPostOpen(false);
+    } else {
+      toast.error("Title and Content is required");
+    }
+  };
+  const handleDelete = (id) => {
+    remove(ref(db, "posts/" + id));
+  };
+
   return (
     <BlogContext.Provider
       value={{
@@ -65,6 +90,12 @@ const BlogContextProvider = ({ children }) => {
         setContent,
         writeToDatabase,
         posts,
+        handleDelete,
+        editPostOpen,
+        setEditPostOpen,
+        editBlogPost,
+        updateInfo,
+        setUpdateInfo,
       }}
     >
       {children}

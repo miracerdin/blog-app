@@ -20,28 +20,18 @@ import { AuthContext } from "../context/AuthContext";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import toast from "react-hot-toast";
+import { BlogContext } from "../context/BlogContext";
+import Edit from "./Edit";
 
 const defaultImage = "https://picsum.photos/250/194";
-// const ExpandMore = styled((props) => {
-//   const { expand, ...other } = props;
-//   return <IconButton {...other} />;
-// })(({ theme, expand }) => ({
-//   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-//   marginLeft: "auto",
-//   transition: theme.transitions.create("transform", {
-//     duration: theme.transitions.duration.shortest,
-//   }),
-// }));
 
 export default function BlogCards({ post }) {
   const { title, content, imageUrl, id } = post;
-  const [expanded, setExpanded] = React.useState(false);
   const { currentUser } = React.useContext(AuthContext);
   const [showMore, setShowMore] = React.useState(false);
+  const { handleDelete, setUpdateInfo, setEditPostOpen } =
+    React.useContext(BlogContext);
   const navigate = useNavigate();
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const handleDetails = () => {
     console.log(id);
@@ -53,119 +43,106 @@ export default function BlogCards({ post }) {
       toast.error("You Should Login to See Details");
     }
   };
-  return (
-    <Card sx={{ width: "250px", m: "1rem" }}>
-      {/* <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
-          </Avatar>
-        }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
-      /> */}
-      <CardMedia
-        component="img"
-        height="194"
-        image={imageUrl ? imageUrl : defaultImage}
-        alt="Paella dish"
-      />
-      <CardHeader
-        // avatar={
-        //   <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-        //     R
-        //   </Avatar>
-        // }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
-        title={title}
-        subheader="September 14, 2016"
-      />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {!showMore ? content.slice(0, 150) : content}
-          <Box
-            component="span"
-            onClick={() => setShowMore(!showMore)}
-            sx={{ cursor: "pointer", color: "black" }}
-          >
-            {content.length <= 150
-              ? ""
-              : !showMore
-              ? "...read more"
-              : " show less"}
-          </Box>
-        </Typography>
-      </CardContent>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
-        <Avatar sx={{ bgcolor: "black" }} aria-label="recipe"></Avatar>
-        <Typography variant="body1" color="text.secondary" sx={{ ml: "1rem" }}>
-          {currentUser.email}
-        </Typography>
-      </Box>
+  const handleEdit = () => {
+    setUpdateInfo({
+      // author: author,
+      title: title,
+      imageUrl: imageUrl,
+      id: id,
+      content: content,
+      // favourite: favourite,
+      // likes: likes,
+    });
+    setEditPostOpen(true);
+  };
 
-      <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <Button
-          variant="contained"
-          onClick={handleDetails}
-          // !currentUser && toastWarnNotify("Please log in to see the detail");
-        >
-          Detail
-        </Button>
-        {/* <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore> */}
-      </CardActions>
-      {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
+  return (
+    <div>
+      <Card
+        sx={{
+          width: "300px",
+          m: "1rem",
+          height: "500px",
+        }}
+      >
+        <CardMedia
+          component="img"
+          height="194"
+          image={imageUrl ? imageUrl : defaultImage}
+          alt="Paella dish"
+        />
+        <CardHeader title={title} subheader="September 14, 2016" />
         <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Heat 1/2 cup of the broth in a pot until simmering, add saffron and
-            set aside for 10 minutes.
-          </Typography>
-          <Typography paragraph>
-            Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet
-            over medium-high heat. Add chicken, shrimp and chorizo, and cook,
-            stirring occasionally until lightly browned, 6 to 8 minutes.
-            Transfer shrimp to a large plate and set aside, leaving chicken and
-            chorizo in the pan. Add pimentón, bay leaves, garlic, tomatoes,
-            onion, salt and pepper, and cook, stirring often until thickened and
-            fragrant, about 10 minutes. Add saffron broth and remaining 4 1/2
-            cups chicken broth; bring to a boil.
-          </Typography>
-          <Typography paragraph>
-            Add rice and stir very gently to distribute. Top with artichokes and
-            peppers, and cook without stirring, until most of the liquid is
-            absorbed, 15 to 18 minutes. Reduce heat to medium-low, add reserved
-            shrimp and mussels, tucking them down into the rice, and cook again
-            without stirring, until mussels have opened and rice is just tender,
-            5 to 7 minutes more. (Discard any mussels that don&apos;t open.)
-          </Typography>
-          <Typography>
-            Set aside off of the heat to let rest for 10 minutes, and then
-            serve.
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            height="90px"
+            sx={{ scroll: "scroll" }}
+          >
+            {!showMore ? content.slice(0, 100) : content}
+            <Box
+              component="span"
+              onClick={() => setShowMore(!showMore)}
+              sx={{ cursor: "pointer", color: "black" }}
+            >
+              {content.length <= 150
+                ? ""
+                : !showMore
+                ? "...read more"
+                : " show less"}
+            </Box>
           </Typography>
         </CardContent>
-      </Collapse> */}
-    </Card>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginX: "1rem",
+          }}
+        >
+          <Avatar sx={{ bgcolor: "black" }} aria-label="recipe"></Avatar>
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            sx={{ ml: "1rem" }}
+          >
+            {currentUser.email}
+          </Typography>
+        </Box>
+
+        <CardActions
+          sx={{
+            justifyContent: "space-between",
+          }}
+        >
+          <IconButton aria-label="add to favorites">
+            <FavoriteIcon />
+          </IconButton>
+          {currentUser.uid === post.userId ? (
+            <>
+              <Button variant="contained" onClick={handleEdit}>
+                Edit
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ bgcolor: "red" }}
+                onClick={() => handleDelete(id)}
+              >
+                Delete
+              </Button>
+              <Button variant="contained" onClick={handleDetails}>
+                Detail
+              </Button>
+            </>
+          ) : (
+            <Button variant="contained" onClick={handleDetails}>
+              Detail
+            </Button>
+          )}
+        </CardActions>
+      </Card>
+      <Edit />
+    </div>
   );
 }
