@@ -41,7 +41,7 @@ export default function Edit() {
             fullWidth
             variant="standard"
             value={updateInfo.title}
-            onChange={() => handleChange()}
+            onChange={handleChange}
             required
           />
           <TextField
