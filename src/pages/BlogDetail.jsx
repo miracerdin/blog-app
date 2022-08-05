@@ -29,8 +29,21 @@ const BlogDetail = () => {
       />
       <CardHeader title={state.post.title} subheader="September 14, 2016" />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {!showMore ? state.post.content.slice(0, 150) : state.post.content}
+        <Typography
+          variant="body2"
+          color="text.secondary"
+          height="90px"
+          sx={{
+            wordBreak: "break-word",
+            // textOverflow: "ellipsis",
+            // display: "-webkit-box",
+            // WebkitLineClamp: "2",
+            // WebkitBoxOrient: "vertical",
+            maxHeight: 200,
+            overflow: "auto",
+          }}
+        >
+          {!showMore ? state.post.content.slice(0, 100) : state.post.content}
           <Box
             component="span"
             onClick={() => setShowMore(!showMore)}
