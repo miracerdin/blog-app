@@ -31,7 +31,7 @@ const BlogDetail = () => {
         alt="Paella dish"
       />
       <Card sx={{ width: "350px", m: "1rem" }}>
-        <CardHeader title={state.post.title} subheader="September 14, 2016" />
+        <CardHeader title={state.post.title} />
         <CardContent>
           <Typography
             variant="body2"
