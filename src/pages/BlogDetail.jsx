@@ -47,13 +47,16 @@ const BlogDetail = () => {
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <Avatar sx={{ bgcolor: "black" }} aria-label="recipe"></Avatar>
         <Typography variant="body1" color="text.secondary" sx={{ ml: "1rem" }}>
-          "currentUser.email"
+          {state.post.author}
         </Typography>
       </Box>
 
       <CardActions disableSpacing sx={{ justifyContent: "space-between" }}>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <FavoriteIcon
+            sx={{ color: state.post.favourite !== 0 ? "red" : "dark" }}
+          />
+          <Box variant="body2">{state.post.favourite}</Box>
         </IconButton>
         <Button
           variant="contained"

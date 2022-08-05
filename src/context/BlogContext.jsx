@@ -14,27 +14,25 @@ const BlogContextProvider = ({ children }) => {
   const [content, setContent] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [posts, setPosts] = useState([]);
-  const [newPostOpen, setNewPostOpen] = useState(false);
   const [editPostOpen, setEditPostOpen] = useState(false);
   const [updateInfo, setUpdateInfo] = useState({});
 
-  console.log(posts);
-  console.log(currentUser);
   //Bilgi ekleme
   const writeToDatabase = () => {
     if (title && content) {
       const postListRef = ref(db, "posts");
-      console.log(postListRef);
+      // console.log(postListRef);
       const newPostListRef = push(postListRef);
       // console.log(newBlogRef);
       set(newPostListRef, {
         title: title,
         content: content,
         imageUrl: imageUrl,
-        author: currentUser.displayName,
+        author: currentUser.email,
         userId: currentUser.uid,
-        // favourite: "0",
-        // likes: [""],
+        favourite: 0,
+
+        likes: [""],
       });
       toast.success("Succesfully added");
       // console.log(db);
@@ -65,14 +63,30 @@ const BlogContextProvider = ({ children }) => {
         title: updateInfo.title,
         content: updateInfo.content,
         imageUrl: updateInfo.imageUrl,
-        // favourite: updateInfo.favourite,
-        // likes: updateInfo.likes,
-        // author: currentUser.displayName,
+        favourite: updateInfo.favourite,
+        likes: updateInfo.likes,
+        author: currentUser.email,
         userId: currentUser.uid,
       });
       setEditPostOpen(false);
     } else {
       toast.error("Title and Content is required");
+    }
+  };
+
+  const increaseFav = (post) => {
+    if (currentUser) {
+      if (!Object.values(post.likes).includes(currentUser.uid)) {
+        update(ref(db, "posts/" + post.id), {
+          ...post,
+          favourite: +post.favourite + 1,
+          likes: [...post.likes, currentUser.uid],
+        });
+      } else {
+        toast.error("You can only like a single post once!!!");
+      }
+    } else {
+      toast.error("You should login first");
     }
   };
   const handleDelete = (id) => {
@@ -96,6 +110,8 @@ const BlogContextProvider = ({ children }) => {
         editBlogPost,
         updateInfo,
         setUpdateInfo,
+        increaseFav,
+        // setFavoriteNumber,
       }}
     >
       {children}

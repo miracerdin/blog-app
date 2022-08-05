@@ -41,18 +41,18 @@ export default function Edit() {
             fullWidth
             variant="standard"
             value={updateInfo.title}
-            onChange={handleChange}
+            onChange={() => handleChange()}
             required
           />
           <TextField
             autoFocus
             margin="normal"
-            id="image"
+            id="imageUrl"
             label="ImageUrl"
             type="text"
             fullWidth
             variant="standard"
-            value={updateInfo.image}
+            value={updateInfo.imageUrl}
             onChange={handleChange}
             placeholder="If you don't type an URL random image will be placed."
           />

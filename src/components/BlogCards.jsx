@@ -1,22 +1,16 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-// import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-// import { red } from "@mui/material/colors";
+
 import FavoriteIcon from "@mui/icons-material/Favorite";
-// import ShareIcon from "@mui/icons-material/Share";
-// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-// import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
-// import { toastWarnNotify } from "../helpers/ToastNotify";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import toast from "react-hot-toast";
@@ -26,11 +20,17 @@ import Edit from "./Edit";
 const defaultImage = "https://picsum.photos/250/194";
 
 export default function BlogCards({ post }) {
-  const { title, content, imageUrl, id } = post;
+  const { title, content, imageUrl, id, favourite, likes, author } = post;
   const { currentUser } = React.useContext(AuthContext);
   const [showMore, setShowMore] = React.useState(false);
-  const { handleDelete, setUpdateInfo, setEditPostOpen } =
-    React.useContext(BlogContext);
+  const {
+    handleDelete,
+    setUpdateInfo,
+    updateInfo,
+    editBlogPost,
+    setEditPostOpen,
+    increaseFav,
+  } = React.useContext(BlogContext);
   const navigate = useNavigate();
 
   const handleDetails = () => {
@@ -45,17 +45,16 @@ export default function BlogCards({ post }) {
   };
   const handleEdit = () => {
     setUpdateInfo({
-      // author: author,
+      author: author,
       title: title,
       imageUrl: imageUrl,
       id: id,
       content: content,
-      // favourite: favourite,
-      // likes: likes,
+      favourite: favourite,
+      likes: likes,
     });
     setEditPostOpen(true);
   };
-
   return (
     <div>
       <Card
@@ -77,7 +76,15 @@ export default function BlogCards({ post }) {
             variant="body2"
             color="text.secondary"
             height="90px"
-            sx={{ scroll: "scroll" }}
+            sx={{
+              wordBreak: "break-word",
+              // textOverflow: "ellipsis",
+              // display: "-webkit-box",
+              // WebkitLineClamp: "2",
+              // WebkitBoxOrient: "vertical",
+              maxHeight: 200,
+              overflow: "auto",
+            }}
           >
             {!showMore ? content.slice(0, 100) : content}
             <Box
@@ -107,7 +114,7 @@ export default function BlogCards({ post }) {
             color="text.secondary"
             sx={{ ml: "1rem" }}
           >
-            {currentUser.email}
+            {author}
           </Typography>
         </Box>
 
@@ -117,7 +124,11 @@ export default function BlogCards({ post }) {
           }}
         >
           <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
+            <FavoriteIcon
+              onClick={() => increaseFav(post)}
+              sx={{ color: favourite !== 0 ? "red" : "dark" }}
+            />
+            <Box variant="body2">{favourite}</Box>
           </IconButton>
           {currentUser.uid === post.userId ? (
             <>
