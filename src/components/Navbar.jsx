@@ -9,7 +9,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import cw from "../assets/cw.jpeg";
+import cw from "../assets/cw.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -29,19 +29,21 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ bgcolor: "#f8e994" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Box
             component="img"
             sx={{
-              height: 233,
-              width: 350,
+              height: 150,
+              width: 150,
               maxHeight: { xs: 75, md: 75 },
               maxWidth: { xs: 75, md: 75 },
+              cursor: "pointer",
             }}
             alt="The house from the offer."
             src={cw}
+            onClick={() => navigate("/")}
           />
 
           <Box
@@ -55,8 +57,7 @@ const Navbar = () => {
               <Typography
                 variant="h5"
                 noWrap
-                component="a"
-                href=""
+                color="black"
                 sx={{
                   mr: 2,
                   display: { xs: "flex", md: "none" },
@@ -64,7 +65,7 @@ const Navbar = () => {
                   fontFamily: "monospace",
                   fontWeight: 700,
                   letterSpacing: ".3rem",
-                  color: "white",
+                  color: "#000",
                   textDecoration: "none",
                 }}
               >
@@ -83,8 +84,6 @@ const Navbar = () => {
               <Typography
                 variant="h5"
                 noWrap
-                component="a"
-                href=""
                 sx={{
                   mr: 2,
                   display: { xs: "flex", md: "flex" },
@@ -93,7 +92,7 @@ const Navbar = () => {
                   fontFamily: "monospace",
                   fontWeight: 700,
                   letterSpacing: ".3rem",
-                  color: "white",
+                  color: "#000",
                   textDecoration: "none",
                 }}
               >

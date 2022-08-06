@@ -9,15 +9,14 @@ body {
   background-repeat: no-repeat;
   background-position: center;
   object-fit: cover;
+  background-color: bisque;
   height: 100vh;
-  background-image: url("https://picsum.photos/1366/768");
 }
 @media (max-width: 995px) {
   body {
     height: 100%;
   }
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
