@@ -27,7 +27,7 @@ export default function Carousell(props) {
   return (
     <Carousel
       sx={{
-        width: "500px",
+        maxWidth: "500px",
         p: "1rem",
         m: "1rem",
         textAlign: "center",
