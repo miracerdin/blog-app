@@ -3,19 +3,19 @@ import React from "react";
 import Typewriter from "typewriter-effect";
 // import MovingComponent from "react-moving-text";
 import { Box } from "@mui/system";
+import Carousell from "../components/Carousel";
 const Profile = () => {
   const Letters = ["mirac erdin hello"];
   return (
     <Box
       sx={{
-        bgcolor: "#c8ccc0",
+        bgcolor: "bisque",
         height: "100vh",
         p: "3rem",
-        // display: "flex",
-        // flexDirection: "column",
-        // justifyContent: "center",
-        // alignItem: "flex",
-        // backgroundImage: 'url("https://picsum.photos/1366/768")',
+        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
       }}
     >
       <Typography variant="h2" gutterBottom sx={{ color: "black" }}>
@@ -61,6 +61,7 @@ const Profile = () => {
           {letter}
         </MovingComponent>
       ))} */}
+      <Carousell />
     </Box>
   );
 };
